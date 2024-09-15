@@ -52,9 +52,13 @@ def index():
                         encrypted_bytes = cipher.encrypt(data_bytes)
                         result_hex = binascii.hexlify(encrypted_bytes).decode('utf-8')
                         result_base64 = base64.b64encode(encrypted_bytes).decode('utf-8')
-                        result_text = ''
+                        result_text = ''  # El texto cifrado no es legible como ASCII
                 elif action == 'decrypt':
-                    encrypted_bytes = binascii.unhexlify(data)
+                    if data_type == 'text':
+                        encrypted_bytes = data.encode('utf-8')
+                    else:
+                        encrypted_bytes = binascii.unhexlify(data)
+
                     if len(encrypted_bytes) % AES.block_size != 0:
                         error = 'El texto cifrado debe ser múltiplo de 16 bytes.'
                     else:
@@ -64,10 +68,7 @@ def index():
                             decrypted_bytes = unpad(decrypted_bytes, AES.block_size)
                         result_hex = binascii.hexlify(decrypted_bytes).decode('utf-8')
                         result_base64 = base64.b64encode(decrypted_bytes).decode('utf-8')
-                        if data_type == 'text':
-                            result_text = decrypted_bytes.decode('utf-8', errors='ignore')
-                        else:
-                            result_text = result_hex
+                        result_text = decrypted_bytes.decode('utf-8', errors='replace')
         except Exception as e:
             error = f'Error: {str(e)}'
 
@@ -77,6 +78,7 @@ def index():
                                result_text=result_text,
                                result_base64=result_base64,
                                key=key, iv=iv, data=data,
+                               action=action, data_type=data_type, padding=padding,
                                current_year=datetime.now().year)
     else:
         # Renderizar el template con valores por defecto y variables de resultado vacías
@@ -86,6 +88,7 @@ def index():
                                result_base64=result_base64,
                                key=key_default, iv=iv_default,
                                data=data_default,
+                               action='encrypt', data_type='text', padding='yes',
                                current_year=datetime.now().year)
 
 @app.route('/reset_iv', methods=['POST'])

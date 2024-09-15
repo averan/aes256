@@ -82,6 +82,9 @@
             .btn {
                 font-size: 14px;
             }
+            .form-control {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -110,7 +113,7 @@
     <!-- Contenido Principal -->
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8 col-lg-6">
                 <div class="card p-4 shadow-sm">
                     <h2 class="card-title text-center mb-4">
                     Cifrado y Descifrado</h2>
@@ -123,9 +126,10 @@
                         <div class="form-group">
                             <label>Acción:</label>
                             <select class="form-control" name="action">
-                                <option value="encrypt" selected>
+                                <option value="encrypt" {% if action == 'encrypt' %}selected{% endif %}>
                                 Cifrar</option>
-                                <option value="decrypt">Descifrar</option>
+                                <option value="decrypt" {% if action == 'decrypt' %}selected{% endif %}>
+                                Descifrar</option>
                             </select>
                         </div>
 
@@ -159,16 +163,20 @@
                         <div class="form-group">
                             <label>Tipo de datos del texto:</label>
                             <select class="form-control" name="data_type">
-                                <option value="text" selected>Texto</option>
-                                <option value="hex">Hexadecimal</option>
+                                <option value="text" {% if data_type == 'text' %}selected{% endif %}>
+                                Texto</option>
+                                <option value="hex" {% if data_type == 'hex' %}selected{% endif %}>
+                                Hexadecimal</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Usar Padding (PKCS7):</label>
                             <select class="form-control" name="padding">
-                                <option value="yes" selected>Sí</option>
-                                <option value="no">No</option>
+                                <option value="yes" {% if padding == 'yes' %}selected{% endif %}>
+                                Sí</option>
+                                <option value="no" {% if padding == 'no' %}selected{% endif %}>
+                                No</option>
                             </select>
                         </div>
 
@@ -179,22 +187,22 @@
                     {% if result_hex or result_text or result_base64 %}
                         <div class="result mt-4">
                             <h4>Resultado:</h4>
-                            {% if result_hex %}
-                            <div class="alert alert-secondary" role="alert">
-                                <strong>Hexadecimal:</strong><br>
-                                {{ result_hex }}
-                            </div>
-                            {% endif %}
                             {% if result_text %}
                             <div class="alert alert-secondary" role="alert">
                                 <strong>Texto:</strong><br>
-                                {{ result_text }}
+                                <pre style="white-space: pre-wrap;">{{ result_text }}</pre>
+                            </div>
+                            {% endif %}
+                            {% if result_hex %}
+                            <div class="alert alert-secondary" role="alert">
+                                <strong>Hexadecimal:</strong><br>
+                                <pre style="white-space: pre-wrap;">{{ result_hex }}</pre>
                             </div>
                             {% endif %}
                             {% if result_base64 %}
                             <div class="alert alert-secondary" role="alert">
                                 <strong>Base64:</strong><br>
-                                {{ result_base64 }}
+                                <pre style="white-space: pre-wrap;">{{ result_base64 }}</pre>
                             </div>
                             {% endif %}
                         </div>
