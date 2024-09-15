@@ -19,22 +19,26 @@
             }
         }
     </script>
+    <!-- Meta etiqueta para dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="bg-accent font-sans">
     <!-- Menú de Navegación -->
     <nav class="bg-primary text-white">
         <div class="container mx-auto flex items-center justify-between p-4">
             <a href="#" class="text-xl font-bold">AES-256 CBC</a>
-            <button class="block lg:hidden focus:outline-none" id="nav-toggle">
+            <button class="lg:hidden focus:outline-none" id="nav-toggle">
                 <svg class="fill-current h-6 w-6" viewBox="0 0 24 24">
                     <path d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
-            <div class="hidden lg:block" id="nav-content">
-                <ul class="flex">
-                    <li><a href="#" class="px-4 py-2" data-modal-toggle="aboutModal">About Us</a></li>
-                </ul>
-            </div>
+        </div>
+        <div class="hidden lg:flex lg:items-center lg:w-auto" id="nav-content">
+            <ul class="flex flex-col lg:flex-row lg:ml-auto">
+                <li class="mr-3">
+                    <a href="#" class="block py-2 px-4 text-white no-underline" data-modal-toggle="aboutModal">About Us</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
